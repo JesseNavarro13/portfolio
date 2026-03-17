@@ -1,120 +1,278 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
+const emptyFormState = {
+  title: '',
+  description: '',
+  link: '',
+  demoLink: '',
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [projects, setProjects] = useState([])
+  const [formState, setFormState] = useState(emptyFormState)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const [editingId, setEditingId] = useState(null)
+  const [editState, setEditState] = useState(emptyFormState)
+
+  const hasProjects = useMemo(() => projects.length > 0, [projects])
+
+  useEffect(() => {
+    fetchProjects()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function fetchProjects() {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/projects')
+      if (!response.ok) throw new Error('Failed to load projects')
+      const data = await response.json()
+      setProjects(data)
+    } catch (err) {
+      setError('Unable to load projects. Is the backend running?')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  function handleInputChange(event) {
+    const { name, value } = event.target
+    setFormState((prev) => ({ ...prev, [name]: value }))
+  }
+
+  async function handleCreateProject(event) {
+    event.preventDefault()
+    setError(null)
+
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState),
+      })
+
+      if (!response.ok) throw new Error('Create failed')
+
+      const created = await response.json()
+      setProjects((prev) => [created, ...prev])
+      setFormState(emptyFormState)
+    } catch (err) {
+      setError('Failed to create project')
+    }
+  }
+
+  function startEditing(project) {
+    setEditingId(project.id)
+    setEditState({
+      title: project.title || '',
+      description: project.description || '',
+      link: project.link || '',
+      demoLink: project.demoLink || '',
+    })
+  }
+
+  function cancelEditing() {
+    setEditingId(null)
+    setEditState(emptyFormState)
+  }
+
+  async function saveEdit(id) {
+    setError(null)
+
+    try {
+      const response = await fetch(`/api/projects/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editState),
+      })
+
+      if (!response.ok) throw new Error('Update failed')
+
+      const updated = await response.json()
+      setProjects((prev) => prev.map((p) => (p.id === id ? updated : p)))
+      cancelEditing()
+    } catch (err) {
+      setError('Failed to save changes')
+    }
+  }
+
+  async function deleteProject(id) {
+    const confirmed = window.confirm('Delete this project?')
+    if (!confirmed) return
+
+    setError(null)
+    try {
+      const response = await fetch(`/api/projects/${id}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) throw new Error('Delete failed')
+
+      setProjects((prev) => prev.filter((p) => p.id !== id))
+    } catch (err) {
+      setError('Failed to delete project')
+    }
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <div className="dashboard">
+      <header className="dashboardHeader">
+        <h1>Projects Dashboard</h1>
+        <p className="subtitle">Add, edit, and delete projects (uses /api/projects)</p>
+      </header>
+
+      <section className="panel">
+        <h2>Add a project</h2>
+        <form className="projectForm" onSubmit={handleCreateProject}>
+          <label>
+            Title
+            <input
+              name="title"
+              value={formState.title}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+
+          <label>
+            Description
+            <textarea
+              name="description"
+              value={formState.description}
+              onChange={handleInputChange}
+              rows={3}
+              required
+            />
+          </label>
+
+          <label>
+            Link
+            <input name="link" value={formState.link} onChange={handleInputChange} />
+          </label>
+
+          <label>
+            Demo link
+            <input
+              name="demoLink"
+              value={formState.demoLink}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <div className="formActions">
+            <button type="submit" className="primary" disabled={isLoading}>
+              Add project
+            </button>
+          </div>
+        </form>
       </section>
 
-      <div className="ticks"></div>
+      <section className="panel">
+        <h2>Projects</h2>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+        {error && <div className="error">{error}</div>}
+        {isLoading && <div className="empty">Loading...</div>}
+        {!isLoading && !hasProjects && (
+          <div className="empty">No projects yet. Add one using the form above.</div>
+        )}
+
+        {hasProjects && (
+          <ul className="projectsList">
+            {projects.map((project) => {
+              const isEditing = editingId === project.id
+              return (
+                <li key={project.id} className="projectCard">
+                  {isEditing ? (
+                    <div className="projectEdit">
+                      <label>
+                        Title
+                        <input
+                          value={editState.title}
+                          onChange={(e) =>
+                            setEditState((prev) => ({ ...prev, title: e.target.value }))
+                          }
+                        />
+                      </label>
+                      <label>
+                        Description
+                        <textarea
+                          rows={2}
+                          value={editState.description}
+                          onChange={(e) =>
+                            setEditState((prev) => ({ ...prev, description: e.target.value }))
+                          }
+                        />
+                      </label>
+                      <label>
+                        Link
+                        <input
+                          value={editState.link}
+                          onChange={(e) =>
+                            setEditState((prev) => ({ ...prev, link: e.target.value }))
+                          }
+                        />
+                      </label>
+                      <label>
+                        Demo link
+                        <input
+                          value={editState.demoLink}
+                          onChange={(e) =>
+                            setEditState((prev) => ({ ...prev, demoLink: e.target.value }))
+                          }
+                        />
+                      </label>
+
+                      <div className="cardActions">
+                        <button className="primary" onClick={() => saveEdit(project.id)}>
+                          Save
+                        </button>
+                        <button type="button" onClick={cancelEditing}>
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="projectContent">
+                        <div className="projectInfo">
+                          <h3>{project.title}</h3>
+                          <p>{project.description}</p>
+                          <div className="links">
+                            {project.link && (
+                              <a href={project.link} target="_blank" rel="noreferrer">
+                                Link
+                              </a>
+                            )}
+                            {project.demoLink && (
+                              <a href={project.demoLink} target="_blank" rel="noreferrer">
+                                Demo
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                        <div className="cardActions">
+                          <button type="button" onClick={() => startEditing(project)}>
+                            Edit
+                          </button>
+                          <button type="button" onClick={() => deleteProject(project.id)}>
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </li>
+              )
+            })}
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
+        )}
       </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    </div>
   )
 }
 
