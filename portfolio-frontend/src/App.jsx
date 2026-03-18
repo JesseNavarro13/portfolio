@@ -4,8 +4,9 @@ import './App.css'
 const emptyFormState = {
   title: '',
   description: '',
-  link: '',
-  demoLink: '',
+  githubUrl: '',
+  demoUrl: '',
+  techStack: '',
 }
 
 function App() {
@@ -71,8 +72,9 @@ function App() {
     setEditState({
       title: project.title || '',
       description: project.description || '',
-      link: project.link || '',
-      demoLink: project.demoLink || '',
+      githubUrl: project.githubUrl || '',
+      demoUrl: project.demoUrl || '',
+      techStack: project.techStack || '',
     })
   }
 
@@ -152,20 +154,39 @@ function App() {
 
           <label>
             Link
-            <input name="link" value={formState.link} onChange={handleInputChange} />
+            <input 
+              name="githubUrl" 
+              value={formState.githubUrl} 
+              onChange={handleInputChange} 
+            />
           </label>
 
           <label>
             Demo link
             <input
-              name="demoLink"
-              value={formState.demoLink}
+              name="demoUrl"
+              value={formState.demoUrl}
               onChange={handleInputChange}
             />
           </label>
 
+          <label>
+            Tech Stack 
+            <textarea
+              name="techStack"
+              value={formState.techStack}
+              onChange={handleInputChange}
+              rows={3}
+              required
+            />
+          </label>
+
           <div className="formActions">
-            <button type="submit" className="primary" disabled={isLoading}>
+            <button 
+              type="submit" 
+              className="primary" 
+              disabled={isLoading}
+            >
               Add project
             </button>
           </div>
@@ -209,20 +230,30 @@ function App() {
                         />
                       </label>
                       <label>
-                        Link
+                        GitHub Link
                         <input
-                          value={editState.link}
+                          value={editState.githubUrl}
                           onChange={(e) =>
-                            setEditState((prev) => ({ ...prev, link: e.target.value }))
+                            setEditState((prev) => ({ ...prev, githubUrl: e.target.value }))
                           }
                         />
                       </label>
                       <label>
                         Demo link
                         <input
-                          value={editState.demoLink}
+                          value={editState.demoUrl}
                           onChange={(e) =>
-                            setEditState((prev) => ({ ...prev, demoLink: e.target.value }))
+                            setEditState((prev) => ({ ...prev, demoUrl: e.target.value }))
+                          }
+                        />
+                      </label>
+                      <label>
+                        Tech Stack
+                        <textarea
+                          rows={2}
+                          value={editState.techStack}
+                          onChange={(e) =>
+                            setEditState((prev) => ({ ...prev, techStack: e.target.value }))
                           }
                         />
                       </label>
@@ -243,17 +274,19 @@ function App() {
                           <h3>{project.title}</h3>
                           <p>{project.description}</p>
                           <div className="links">
-                            {project.link && (
-                              <a href={project.link} target="_blank" rel="noreferrer">
+                            {project.githubUrl && (
+                              <a href={project.githubUrl} target="_blank" rel="noreferrer">
                                 Link
                               </a>
                             )}
-                            {project.demoLink && (
-                              <a href={project.demoLink} target="_blank" rel="noreferrer">
+                            {project.demoUrl && (
+                              <a href={project.demoUrl} target="_blank" rel="noreferrer">
                                 Demo
                               </a>
                             )}
                           </div>
+                          <h3>Tech Stack</h3>
+                          <p>{project.techStack}</p>
                         </div>
                         <div className="cardActions">
                           <button type="button" onClick={() => startEditing(project)}>

@@ -301,6 +301,7 @@
 .projectInfo p {
   margin: 0 0 12px;
   max-width: 720px;
+  text-align: left;
 }
 
 .links {
