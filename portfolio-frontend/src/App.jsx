@@ -153,7 +153,7 @@ function App() {
           </label>
 
           <label>
-            Link
+            GitHub Link
             <input 
               name="githubUrl" 
               value={formState.githubUrl} 
@@ -276,7 +276,7 @@ function App() {
                           <div className="links">
                             {project.githubUrl && (
                               <a href={project.githubUrl} target="_blank" rel="noreferrer">
-                                Link
+                                GitHub
                               </a>
                             )}
                             {project.demoUrl && (

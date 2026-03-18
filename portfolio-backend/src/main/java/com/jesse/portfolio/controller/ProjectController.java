@@ -1,51 +1,40 @@
 package com.jesse.portfolio.controller;
 
-import com.jesse.portfolio.dto.ProjectDTO;
+import com.jesse.portfolio.model.Project;
+import com.jesse.portfolio.service.ProjectService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/api/projects")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProjectController {
 
-    private final AtomicLong idGenerator = new AtomicLong();
-    private final List<ProjectDTO> projects = new ArrayList<>();
+    private final ProjectService projectService;
+
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @GetMapping
-    public List<ProjectDTO> getProjects() {
-        return projects;
+    public List<Project> getProjects() {
+        return projectService.getAllProjects();
     }
 
     @PostMapping
-    public ProjectDTO addProject(@RequestBody ProjectDTO project) {
-        project.setId(idGenerator.incrementAndGet());
-        projects.add(project);
-        return project;
+    public Project addProject(@RequestBody Project project) {
+        return projectService.saveProject(project);
     }
 
     @PutMapping("/{id}")
-    public ProjectDTO updateProject(@PathVariable Long id, @RequestBody ProjectDTO updatedProject) {
-        
-        for (ProjectDTO project : projects) {
-            if (project.getId().equals(id)) {
-                project.setTitle(updatedProject.getTitle());
-                project.setDescription(updatedProject.getDescription());
-                project.setGithubUrl(updatedProject.getGithubUrl());
-                project.setDemoUrl(updatedProject.getDemoUrl());
-                project.setTechStack(updatedProject.getTechStack());
-                return project;
-            }
-        }
-
-        throw new RuntimeException("Project not found");
+    public Project updateProject(@PathVariable Long id, @RequestBody Project project) {
+        return projectService.updateProject(id, project);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
-        projects.removeIf(project -> project.getId().equals(id));
+        projectService.deleteProject(id);
     }
 
 }
