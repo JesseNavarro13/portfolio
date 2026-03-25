@@ -183,6 +183,13 @@
   }
 }
 
+.home {
+  display: flex;
+  color: var(--text);
+  flex-direction: column;
+  min-height: 100svh;
+}
+
 .dashboard {
   max-width: 980px;
   margin: 0 auto;
@@ -280,10 +287,19 @@
 }
 
 .projectCard {
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  border: 2px solid var(--border);
+  border-radius: 20px;
   padding: 18px;
   background: var(--card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.projectsGrid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .projectContent {
@@ -335,6 +351,13 @@
   flex-direction: column;
   gap: 8px;
   font-weight: 600;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
 }
 
 @media (max-width: 720px) {

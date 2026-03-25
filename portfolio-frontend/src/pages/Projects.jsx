@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { fetchProjects } from '../api/api';
+import ProjectCard from '../components/ProjectCard';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -10,16 +11,13 @@ const Projects = () => {
 
     return (
         <div>
-            <h2>Projects</h2>
+            <h1>Projects</h1>
 
-            {projects.map((p) => (
-                <div key={p.id}>
-                    <h3>{p.title}</h3>
-                    <p>{p.description}</p>
-                    <p>Tech Stack: {p.techStack}</p>
-                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer">View Project</a>
-                </div>
-            ))}
+            <div className="projectsGrid">
+                {projects.map((p, i) => (
+                    <ProjectCard key={i} {...p} />
+                ))}
+            </div>
         </div>
     );
 }
