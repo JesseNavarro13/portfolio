@@ -136,6 +136,11 @@ const Admin = () => {
     }
   }
 
+  function handleLogout() {
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
+
   return (
     <div className="admin">
       <h1>Admin Dashboard</h1>
@@ -322,6 +327,9 @@ const Admin = () => {
               })}
             </ul>
           )}
+        </section>
+        <section>
+          <button onClick={handleLogout}>Logout</button>
         </section>
       </div>
     </div>

@@ -17,7 +17,6 @@ public class LoginController {
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
-        // For simplicity, we hardcode a single user. In a real app, you'd check a database.
         if ("admin".equals(request.getUsername()) && "adminpassword".equals(request.getPassword())) {
             String token = jwtUtil.generateToken(request.getUsername());
             return new LoginResponse(token);

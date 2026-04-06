@@ -5,7 +5,7 @@ export default function Navbar() {
         <nav className="navbar">
             <Link to="/">Home</Link>
             <Link to="/projects">Projects</Link>
-            <Link to="/admin">Admin</Link>
+            <Link to="/admin-login">Admin</Link>
         </nav> 
     );
 };

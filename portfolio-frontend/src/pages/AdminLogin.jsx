@@ -9,11 +9,26 @@ export default function AdminLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Mock authentication logic
-        if (username === 'admin' && password === 'adminpassword') {
+        try {
+            const res = await fetch('http://localhost:5173/api/auth/login', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (!res.ok) throw new Error('Invalid credentials');
+
+            const data = await res.json();
+
+            // Save token
+            localStorage.setItem('token', data.token);
+
+            // Redirect to admin page
             navigate('/admin');
-        } else {
-            alert('Invalid credentials');
+        } catch (err) {
+            alert('Login failed: ' + err.message);
         }
     };
 
