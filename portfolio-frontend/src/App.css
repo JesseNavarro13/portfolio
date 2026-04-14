@@ -354,13 +354,238 @@
 }
 
 .navbar {
+  width: min(980px, 100%);
+  margin: 16px auto 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--social-bg);
+  box-sizing: border-box;
+}
+
+.brandMark {
+  color: var(--text-h);
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.navLinks {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--text-h);
+  border-color: var(--border);
+  background: var(--bg);
+}
+
+.navLink.active {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.homePage,
+.projectsPage,
+.adminLoginPage {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: 36px 24px 56px;
+  box-sizing: border-box;
+}
+
+.homeHero,
+.projectsHeader {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.homeHero h1,
+.projectsHeader h1 {
+  margin: 0 0 14px;
+}
+
+.homeSubtitle {
+  color: var(--text-h);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.homeIntro,
+.projectsHeader p {
+  max-width: 740px;
+  color: var(--text);
+}
+
+.homeHighlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.highlightCard {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--social-bg);
+  text-align: left;
+  padding: 18px;
+}
+
+.highlightCard h3 {
+  margin: 0 0 8px;
+  color: var(--text-h);
+}
+
+.highlightCard p {
+  color: var(--text);
+}
+
+.projectsGrid {
+  margin-top: 18px;
+}
+
+.projectCard {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  background: var(--card);
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.projectCard h3 {
+  margin: 0 0 8px;
+  color: var(--text-h);
+}
+
+.projectCard p {
+  margin-bottom: 10px;
+}
+
+.projectCard a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.adminLoginPage {
+  display: flex;
+  justify-content: center;
+}
+
+.loginCard {
+  width: min(440px, 100%);
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  background: var(--card);
+}
+
+.loginCard h2 {
+  margin: 0 0 8px;
+}
+
+.loginDescription {
+  margin-bottom: 18px;
+}
+
+.loginForm {
+  display: grid;
+  gap: 14px;
+}
+
+.loginForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-h);
+  font-size: 0.95rem;
+}
+
+.loginForm input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.loginForm button {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.loginForm button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.loginError {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  background: rgba(255, 77, 79, 0.08);
 }
 
 @media (max-width: 720px) {
+  .navbar {
+    margin: 10px 12px 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .brandMark {
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  .navLinks {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .homePage,
+  .projectsPage,
+  .adminLoginPage {
+    padding: 24px 16px 40px;
+  }
+
   .projectContent {
     flex-direction: column;
   }

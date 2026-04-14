@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchProjects } from '../api/api';
 import ProjectCard from '../components/ProjectCard';
 
@@ -10,15 +10,22 @@ const Projects = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Projects</h1>
+        <main className="projectsPage">
+            <header className="projectsHeader">
+                <p className="eyebrow">Work</p>
+                <h1>Projects</h1>
+                <p>
+                    A curated list of work that demonstrates my approach to design, development,
+                    and problem solving.
+                </p>
+            </header>
 
-            <div className="projectsGrid">
+            <section className="projectsGrid" aria-label="Project list">
                 {projects.map((p, i) => (
                     <ProjectCard key={i} {...p} />
                 ))}
-            </div>
-        </div>
+            </section>
+        </main>
     );
 }
 
