@@ -403,6 +403,7 @@
 }
 
 .homePage,
+.aboutPage,
 .projectsPage,
 .adminLoginPage {
   width: min(980px, 100%);
@@ -412,6 +413,7 @@
 }
 
 .homeHero,
+.aboutHeader,
 .projectsHeader {
   text-align: left;
   margin-bottom: 28px;
@@ -439,6 +441,7 @@
 }
 
 .homeIntro,
+.aboutHeader p,
 .projectsHeader p {
   max-width: 740px;
   color: var(--text);
@@ -465,6 +468,49 @@
 
 .highlightCard p {
   color: var(--text);
+}
+
+.homeLinks {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.primaryBtn {
+  background: var(--card);
+  border-color: var(--border);
+  color: var(--text-h);
+}
+
+.primaryBtn:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.secondaryBtn {
+  background: var(--card);
+  border-color: var(--border);
+  color: var(--text-h);
+}
+
+.secondaryBtn:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
 }
 
 .projectsGrid {
@@ -498,6 +544,59 @@
 .adminLoginPage {
   display: flex;
   justify-content: center;
+}
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.aboutCard {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  background: var(--card);
+  text-align: left;
+  min-width: 0;
+}
+
+.aboutCard h2 {
+  margin: 0 0 14px;
+}
+
+.aboutInfoList {
+  display: grid;
+  gap: 10px;
+  overflow-wrap: break-word;
+}
+
+.aboutInfoList p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.aboutInfoList a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.skillsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skillsList li {
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 600;
 }
 
 .loginCard {
@@ -581,6 +680,7 @@
   }
 
   .homePage,
+  .aboutPage,
   .projectsPage,
   .adminLoginPage {
     padding: 24px 16px 40px;
@@ -588,5 +688,15 @@
 
   .projectContent {
     flex-direction: column;
+  }
+
+  .homeLinks {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
   }
 }

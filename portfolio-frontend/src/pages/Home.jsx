@@ -27,6 +27,11 @@ const Home = () => {
                     <p>Create products that feel polished, fast, and intuitive to use.</p>
                 </article>
             </section>
+
+            <div className="homeLinks" style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <a href="/about" className="primaryBtn">About Me</a>
+                <a href="/projects" className="secondaryBtn">View Projects</a>
+            </div>
         </main>
     );
 };

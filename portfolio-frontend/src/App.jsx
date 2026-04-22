@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import AboutMe from './pages/AboutMe';
 import Projects from './pages/Projects';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
@@ -13,6 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutMe />} />
         <Route path="/projects" element={<Projects />} />
 
         {/* Login Page */}
