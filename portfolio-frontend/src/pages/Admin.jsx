@@ -142,13 +142,12 @@ const Admin = () => {
   }
 
   return (
-    <div className="admin">
-      <h1>Admin Dashboard</h1>
-      <p>Welcome, Admin!</p>
+    <main className="adminPage">
       <div className="dashboard">
         <header className="dashboardHeader">
+          <p className="eyebrow">Admin</p>
           <h1>Projects Dashboard</h1>
-          <p className="subtitle">Add, edit, and delete projects (uses /api/projects)</p>
+          <p className="subtitle">Add, edit, and manage your portfolio projects from one place.</p>
         </header>
 
         <section className="panel">
@@ -207,7 +206,7 @@ const Admin = () => {
             <div className="formActions">
               <button
                 type="submit"
-                className="primary"
+                className="primaryBtn"
                 disabled={isLoading}
               >
                 Add project
@@ -282,10 +281,10 @@ const Admin = () => {
                         </label>
 
                         <div className="cardActions">
-                          <button className="primary" onClick={() => saveEdit(project.id)}>
+                          <button className="primaryBtn" onClick={() => saveEdit(project.id)}>
                             Save
                           </button>
-                          <button type="button" onClick={cancelEditing}>
+                          <button type="button" className="secondaryBtn" onClick={cancelEditing}>
                             Cancel
                           </button>
                         </div>
@@ -312,10 +311,10 @@ const Admin = () => {
                             <p>{project.techStack}</p>
                           </div>
                           <div className="cardActions">
-                            <button type="button" onClick={() => startEditing(project)}>
+                            <button type="button" className="secondaryBtn" onClick={() => startEditing(project)}>
                               Edit
                             </button>
-                            <button type="button" onClick={() => deleteProject(project.id)}>
+                            <button type="button" className="dangerBtn" onClick={() => deleteProject(project.id)}>
                               Delete
                             </button>
                           </div>
@@ -328,11 +327,11 @@ const Admin = () => {
             </ul>
           )}
         </section>
-        <section>
-          <button onClick={handleLogout}>Logout</button>
+        <section className="adminFooter">
+          <button className="secondaryBtn" onClick={handleLogout}>Logout</button>
         </section>
       </div>
-    </div>
+    </main>
   );
 };
 

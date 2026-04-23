@@ -191,37 +191,53 @@
 }
 
 .dashboard {
-  max-width: 980px;
+  width: min(980px, 100%);
   margin: 0 auto;
-  padding: 32px 20px;
+  padding: 36px 24px 56px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 20px;
+}
+
+.adminPage {
+  width: min(980px, 100%);
+  margin: 0 auto;
 }
 
 .dashboardHeader {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 0 8px;
+  gap: 18px;
+  text-align: left;
+}
+
+.dashboardHeader h1 {
+  margin: 0;
 }
 
 .subtitle {
   color: var(--muted);
   font-size: 0.95rem;
+  margin: 0;
 }
 
 .panel {
-  padding: 24px;
+  padding: 22px;
   border: 1px solid var(--border);
   border-radius: 14px;
   background: var(--card);
+  text-align: left;
+}
+
+.panel h2 {
+  margin: 0 0 16px;
 }
 
 .projectForm {
   display: grid;
-  gap: 16px;
-  max-width: 680px;
+  gap: 14px;
+  max-width: 760px;
 }
 
 .projectForm label {
@@ -236,7 +252,7 @@
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: var(--background);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -245,21 +261,10 @@
 }
 
 .formActions {
-  color: white;
-  justify-content: center;
+  justify-content: flex-start;
   display: flex;
   gap: 12px;
-}
-
-.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--button-text);
-  cursor: pointer;
-}
-
-.primary:hover {
-  filter: brightness(1.05);
+  margin-top: 4px;
 }
 
 .error {
@@ -287,13 +292,13 @@
 }
 
 .projectCard {
-  border: 2px solid var(--border);
-  border-radius: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   padding: 18px;
   background: var(--card);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .projectsGrid {
@@ -318,6 +323,7 @@
   margin: 0 0 12px;
   max-width: 720px;
   text-align: left;
+  overflow-wrap: anywhere;
 }
 
 .links {
@@ -339,11 +345,14 @@
 }
 
 .cardActions button {
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   background: transparent;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 10px;
   cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .projectEdit label {
@@ -351,6 +360,39 @@
   flex-direction: column;
   gap: 8px;
   font-weight: 600;
+}
+
+.projectEdit input,
+.projectEdit textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.projectEdit textarea {
+  resize: vertical;
+}
+
+.adminFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dangerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  border: 1px solid rgba(255, 77, 79, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 77, 79, 0.1);
+  color: var(--danger);
+}
+
+.dangerBtn:hover {
+  background: rgba(255, 77, 79, 0.16);
 }
 
 .navbar {
@@ -425,12 +467,28 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin: 0;
 }
 
 .homeHero h1,
-.projectsHeader h1 {
-  margin: 0 0 14px;
+.aboutHeader h1,
+.projectsHeader h1,
+.dashboardHeader h1 {
+  margin: 0;
+}
+
+.homeHero .eyebrow,
+.aboutHeader .eyebrow,
+.projectsHeader .eyebrow,
+.dashboardHeader .eyebrow {
+  margin-bottom: 24px;
+}
+
+.homeHero h1,
+.aboutHeader h1,
+.projectsHeader h1,
+.dashboardHeader h1 {
+  margin-bottom: 24px;
 }
 
 .homeSubtitle {
@@ -443,7 +501,7 @@
 .homeIntro,
 .aboutHeader p,
 .projectsHeader p {
-  max-width: 740px;
+  max-width: 1000px;
   color: var(--text);
 }
 
@@ -683,6 +741,10 @@
   .aboutPage,
   .projectsPage,
   .adminLoginPage {
+    padding: 24px 16px 40px;
+  }
+
+  .dashboard {
     padding: 24px 16px 40px;
   }
 
