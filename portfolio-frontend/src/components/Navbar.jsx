@@ -19,7 +19,7 @@ export default function Navbar() {
                 <NavLink to="/projects" className={navClassName}>
                     Projects
                 </NavLink>
-                <NavLink to="/admin-login" className={navClassName}>
+                <NavLink to="/admin" className={navClassName}>
                     Admin
                 </NavLink>
             </div>
