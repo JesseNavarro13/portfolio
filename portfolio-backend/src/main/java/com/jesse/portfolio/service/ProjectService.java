@@ -36,6 +36,7 @@ public class ProjectService {
         existingProject.setGithubUrl(updatedProject.getGithubUrl());
         existingProject.setDemoUrl(updatedProject.getDemoUrl());
         existingProject.setTechStack(updatedProject.getTechStack());
+        existingProject.setFeatured(updatedProject.getFeatured());
         
         return projectRepository.save(existingProject);
     }
